@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -11,7 +12,12 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
+        $transaksiAktif = Transaksi::where('status', 'aktif')->first();
+        $semuaProduk = $transaksiAktif ? collect($transaksiAktif->produk) : collect([]);
+        $totalSemuaBelanja = $semuaProduk->sum(fn($produk) => $produk['harga'] * $produk['jumlah']);
+        $kembalian = request()->bayar ? request()->bayar - $totalSemuaBelanja : null;
+
+        return view('pages.transaksi.index', compact('transaksiAktif', 'semuaProduk', 'totalSemuaBelanja', 'kembalian'));
     }
 
     /**

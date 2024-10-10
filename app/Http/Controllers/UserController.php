@@ -30,9 +30,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'peran' => 'required',
             'name' => 'required',
             'email' => 'required',
-            'peran' => 'required',
         ]);
         $user = User::create($request->all());
         return redirect()->route('pages.user.create');
@@ -70,5 +70,10 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
         return redirect()->route('user.index');
+    }
+
+    public function logout(){
+        auth()->logout();
+        return redirect('/');
     }
 }

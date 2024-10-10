@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('template')
 
-@section('content')
+@section('konten')
 <div class="page-heading">
    <div class="page-title mb-3">
       <h3>
