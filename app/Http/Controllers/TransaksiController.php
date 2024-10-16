@@ -2,69 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\Transaksi;
 
 class TransaksiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan daftar transaksi
     public function index()
     {
-        $transaksiAktif = Transaksi::where('status', 'aktif')->first();
-        $semuaProduk = $transaksiAktif ? collect($transaksiAktif->produk) : collect([]);
-        $totalSemuaBelanja = $semuaProduk->sum(fn($produk) => $produk['harga'] * $produk['jumlah']);
-        $kembalian = request()->bayar ? request()->bayar - $totalSemuaBelanja : null;
-
-        return view('pages.transaksi.index', compact('transaksiAktif', 'semuaProduk', 'totalSemuaBelanja', 'kembalian'));
+        $transaksis = Transaksi::all(); // Mengambil semua data transaksi
+        return view('pages.transaksi.index', compact('transaksis'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Menampilkan form create transaksi baru
     public function create()
     {
-        //
+        return view('pages.transaksi.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Menyimpan transaksi baru
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'total' => 'required|integer|min:1',
+        ]);
+
+        Transaksi::create([
+            'kode' => $request->kode,
+            'total' => $request->total,
+            'status' => 'pending', // Default status adalah pending
+        ]);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Menampilkan form edit transaksi
+    public function edit($id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        return view('pages.transaksi.edit', compact('transaksi'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // Mengupdate transaksi
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'total' => 'required|integer|min:1',
+            'status' => 'required|string|in:pending,completed,cancelled',
+        ]);
+
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->update([
+            'kode' => $request->kode,
+            'total' => $request->total,
+            'status' => $request->status,  // Mengizinkan perubahan status
+        ]);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diupdate.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Menghapus transaksi
+    public function destroy($id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->delete();
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Membatalkan (menghapus) transaksi
+    public function cancel($id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->delete();
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibatalkan dan dihapus.');
+    }
+
+    // Menandai transaksi sebagai sudah dibayar
+    public function bayar(Request $request, $id)
+    {
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->update(['status' => 'completed']);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibayar.');
     }
 }

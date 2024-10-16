@@ -19,6 +19,7 @@
             <table id="datatable" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Peran</th>
@@ -37,9 +38,11 @@
                                     <span class="bi bi-pencil"></span>
                                     Edit
                                 </a>
-                                    <a href="#" class="btn btn-danger btn-sm me-1" onclick="handleDestroy(`{{ route('user.destroy', $item->id) }}`)">
-                                    <span class="bi bi-trash">Hapus</span>
-                                </a>
+                                <form action="{{ route('user.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach  

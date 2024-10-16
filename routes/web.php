@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransaksiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,11 +16,9 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 
 Route::resource('/user', App\Http\Controllers\UserController::class);
 Route::resource('/produk', App\Http\Controllers\ProdukController::class);
-Route::get('/transaksi', [App\Http\Controllers\TransaksiController::class, 'index'])->name('transaksi.index');
-Route::post('/transaksi/baru', [App\Http\Controllers\TransaksiController::class, 'create'])->name('transaksi.baru');
-Route::post('/transaksi/batalkan', [App\Http\Controllers\TransaksiController::class, 'batalkanTransaksi'])->name('transaksi.batalkan');
-Route::post('/transaksi/produk/{id}/hapus', [App\Http\Controllers\TransaksiController::class, 'hapusProduk'])->name('produk.hapus');
-Route::post('/transaksi/selesai', [App\Http\Controllers\TransaksiController::class, 'transaksiSelesai'])->name('transaksi.selesai');
-Route::resource('/laporan', App\Http\Controllers\LaporanController::class);
-
 Route::get('/template', [App\Http\Controllers\HomeController::class, 'index'])->name('template');   
+
+Route::resource('transaksi', TransaksiController::class);
+Route::post('/transaksi/{id}/cancel', [TransaksiController::class, 'cancel'])->name('transaksi.cancel');
+Route::post('transaksi/{id}/bayar', [TransaksiController::class, 'bayar'])->name('transaksi.bayar');
+

@@ -36,7 +36,7 @@ class ProdukController extends Controller
             'stok' => 'required',
         ]);
         $produk = Produk::create($request->all());
-        return redirect()->route('produk.create');
+        return redirect()->route('produk.index');
     }
 
     /**

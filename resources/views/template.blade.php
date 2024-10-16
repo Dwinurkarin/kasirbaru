@@ -28,8 +28,8 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="">MyBimble</a>
-                <a class="navbar-brand hidden" href="">M</a>
+                <a class="navbar-brand" href="">Kasir</a>
+                <a class="navbar-brand hidden" href="">K</a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -47,7 +47,7 @@
                         <a href="/transaksi"> <i class="menu-icon fa fa-dashboard"></i>Transaksi </a>
                     </li>
                     <li>
-                        <a href="/laporan"> <i class="menu-icon fa fa-dashboard"></i>Laporan </a>
+                        <a href="/laporan"> <i class="menu-icon fa fa-clipboard"></i>Laporan </a>
                     </li>
                 </ul>
             </div>

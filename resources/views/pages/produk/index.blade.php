@@ -19,6 +19,7 @@
             <table id="datatable" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Kode</th>
                         <th>Nama</th>
                         <th>Harga</th>
@@ -35,17 +36,15 @@
                             <td>{{ $item->harga }}</td>
                             <td>{{ $item->stok }}</td>
                             <td>
-                                <a href="{{ route('produk.show', $item->id) }}" class="btn btn-primary btn-sm me-1">
-                                    <span class="bi bi-eye"></span>
-                                    Show
-                                </a>
                                 <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-secondary btn-sm me-1">
                                     <span class="bi bi-pencil"></span>
                                     Edit
                                 </a>
-                                    <a href="#" class="btn btn-danger btn-sm me-1" onclick="handleDestroy(`{{ route('produk.destroy', $item->id) }}`)">
-                                    <span class="bi bi-trash">Hapus</span>
-                                </a>
+                                <form action="{{ route('produk.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach  

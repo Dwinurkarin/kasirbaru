@@ -12,11 +12,13 @@ class Transaksi extends Model
     protected $fillable = [
         'kode',
         'total',
-        'status'
+        'status',
     ];
 
     public function Laporan()
     {
         return $this->hasMany(Laporan::class);
     }
+
+
 }

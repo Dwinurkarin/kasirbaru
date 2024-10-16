@@ -51,7 +51,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        return view('pages.user.edit', compact('user'));
     }
 
     /**
@@ -59,7 +60,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required',
+            'peran' => 'required',
+        ]);
+        $user = User::find($id);
+        $user->update($request->all());
+        return redirect()->route('user.index');
     }
 
     /**
@@ -72,7 +80,8 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function logout(){
+    public function logout()
+    {
         auth()->logout();
         return redirect('/');
     }
