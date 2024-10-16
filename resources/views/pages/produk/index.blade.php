@@ -59,39 +59,3 @@
     @method("DELETE")
 </form>
 @endsection
-
-@push('styles')
-<link rel="stylesheet" href="{{ asset('/vendors/simple-datatables/style.css') }}">
-@endpush
-
-@push('scripts')
-<script src="{{ asset('/vendors/simple-datatables/simple-datatables.js') }}"></script>
-<script>
-    // Simple Datatable
-    let datatable = document.querySelector('#datatable');
-    new simpleDatatables.DataTable(datatable);
-</script>
-@endpush
-
-@push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-    <script type="text/javascript">
-        function handleDestroy(url) {
-            swal({
-                title: "Apakah anda yakin?",
-                text: "Setelah dihapus, Anda tidak akan dapat mengembalikannya",
-                icon: "warning",
-                buttons: ['Batal', 'Ya, Hapus!'],
-                dangerMode: true,
-            }).then((confirmed) => {
-                if (confirmed) {
-                    //JQUERY
-                    $('#form-delete').attr('action', url);
-                    $('#form-delete').submit();
-                }
-            });
-        }
-    </script>
-@endpush 
