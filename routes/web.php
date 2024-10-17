@@ -16,7 +16,7 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 
 Route::resource('/user', App\Http\Controllers\UserController::class);
 Route::resource('/produk', App\Http\Controllers\ProdukController::class);
-Route::resource('transaksi', TransaksiController::class);
+Route::resource('transaksi', App\Http\Controllers\TransaksiController::class);
 Route::post('/transaksi/{id}/cancel', [TransaksiController::class, 'cancel'])->name('transaksi.cancel');
 Route::post('transaksi/{id}/bayar', [TransaksiController::class, 'bayar'])->name('transaksi.bayar');
 Route::get('/laporan' , [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');  
