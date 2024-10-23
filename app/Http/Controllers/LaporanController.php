@@ -13,3 +13,4 @@ class LaporanController extends Controller
         return view('pages.laporan.index', compact('semuaTransaksi'));
     }
 }
+    

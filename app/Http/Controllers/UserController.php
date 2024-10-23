@@ -33,9 +33,10 @@ class UserController extends Controller
             'peran' => 'required',
             'name' => 'required',
             'email' => 'required',
+            'password' => 'required',
         ]);
         $user = User::create($request->all());
-        return redirect()->route('pages.user.create');
+        return redirect('/user');
     }
 
     /**

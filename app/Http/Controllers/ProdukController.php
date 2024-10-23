@@ -80,6 +80,6 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         $produk->delete();
-        return redirect()->route('pages.produk.index');
+        return redirect('/produk');
     }
 }

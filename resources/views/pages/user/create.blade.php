@@ -22,10 +22,18 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group mb-3">
+                    <label for="password" class="form-lable"> Password <span class="text-danger">*</span></label>
+                    <input type="password" name="password" id="name" value="{{ old('password') }}" class="form-control @error('password') is-invalid  @enderror" />
+            
+                    @error('password') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="form-group mb-3">
                     <label for="name" class="form-lable"> Email <span class="text-danger">*</span></label>
-                    <input type="text" name="email" id="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid  @enderror" />
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid  @enderror" />
             
                     @error('email') 
                         <div class="invalid-feedback d-block">{{ $message }}</div>

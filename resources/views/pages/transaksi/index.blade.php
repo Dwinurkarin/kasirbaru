@@ -1,78 +1,104 @@
 @extends('template')
 
 @section('konten')
-    <div class="page-heading">
-        <div class="page-title mb-3">
-            <h3>
-                <span class="bi bi-building"></span>
-                Transaksi
-            </h3>
-        </div>
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12">
+            @if (!$transaksiAktif)
+                <form action="{{ route('transaksi.create') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Transaksi Baru</button>
+                </form>
+            @else
 
-        <a href="{{ route('transaksi.create') }}" class="btn btn-primary mb-3">
-            <span class="bi bi-plus-circle"></span> Tambah Transaksi
-        </a>
-        <section class="section">
-            <div class="card">
+            @endif
+        </div>
+    </div>
+
+    @if ($transaksiAktif)
+    <div class="row mt-2">
+        <div class="col-8">
+            <div class="card border-primary">
                 <div class="card-body">
+                    <h4 class="card-title">No Invoice : {{ $transaksiAktif->kode }}</h4>
+                    <form action="{{ route('transaksi.update', $transaksiAktif->id ?? null) }}" method="POST">
+                        @csrf
+                        <input type="text" name="kode" class="form-control" placeholder="No Invoice" value="{{ old('kode') }}">
+                    </form>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Kode</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
+                                <th>No</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Harga</th>
+                                <th>QTY</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($transaksis as $transaksi)
-                                <tr>
-                                    <td>{{ $transaksi->id }}</td>
-                                    <td>{{ $transaksi->kode }}</td>
-                                    <td>{{ $transaksi->total }}</td>
-                                    <td>
-                                        @if ($transaksi->status == 'completed')
-                                            <span class="badge bg-success">Completed</span>
-                                        @elseif ($transaksi->status == 'pending')
-                                            <span class="badge bg-warning">Pending</span>
-                                        @elseif ($transaksi->status == 'cancelled')
-                                            <span class="badge bg-danger">Cancelled</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($transaksi->status == 'pending')
-                                            <form action="{{ route('transaksi.cancel', $transaksi->id) }}" method="POST"
-                                                style="display:inline-block;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm">Batalkan</button>
-                                            </form>
-
-                                            <form action="{{ route('transaksi.bayar', $transaksi->id) }}" method="POST"
-                                                style="display:inline-block;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Bayar</button>
-                                            </form>
-                                        @else
-                                            <span class="badge bg-secondary">Tidak ada aksi</span>
-                                        @endif
-
-                                        <a href="{{ route('transaksi.edit', $transaksi->id) }}"
-                                            class="btn btn-warning btn-sm">Edit</a>
-
-                                        <form action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST"
-                                            style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            @foreach ($semuaProduk as $produk)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $produk->produk->kode }}</td>
+                                <td>{{ $produk->produk->nama }}</td>
+                                <td>{{ number_format($produk->produk->harga, 2, '.', ',') }}</td>
+                                <td>{{ $produk->jumlah }}</td>
+                                <td>{{ number_format($produk->produk->harga * $produk->jumlah, 2, '.', ',') }}</td>
+                                <td>
+                                    <form action="{{ route('transaksi.hapus', $produk->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div class="col-4">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h4 class="card-title">Total Biaya</h4>
+                    <div class="d-flex justify-content-between">
+                        <span>Rp.</span>
+                        <span>{{ number_format($totalSemuaBelanja, 2, '.', ',') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-primary mt-2">
+                <div class="card-body">
+                    <h4 class="card-title">Bayar</h4>
+                    <input type="number" class="form-control" placeholder="Bayar" name="bayar">
+                </div>
+            </div>
+            <div class="card border-primary mt-2">
+                <div class="card-body">
+                    <h4 class="card-title">Kembalian</h4>
+                    <div class="d-flex justify-content-between">
+                        <span>Rp.</span>
+                        <span>{{ number_format($kembalian, 2, '.', ',') }}</span>
+                    </div>
+                </div>
+            </div>
+            @if ($bayar)
+                @if ($kembalian < 0)
+                    <div class="alert alert-danger mt-2" role="alert">
+                        Uang Kurang
+                    </div>
+                @else
+                    <form action="{{ route('transaksi.selesai') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success mt-2 w-100">Bayar</button>
+                    </form>
+                @endif
+            @endif
+        </div>
     </div>
+    @endif
+</div>
 @endsection
