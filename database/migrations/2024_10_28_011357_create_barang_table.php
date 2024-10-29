@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi', function (Blueprint $table) {
+        Schema::create('barang', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_barang');
-            $table->decimal('total_bayar', 8, 2);
-            $table->string('qty');
-            $table->string('subtotal');
+            $table->string('kode_barang')->unique();
+            $table->string('nama_barang');
+            $table->decimal('harga', 8, 2);
             $table->timestamps();
-
-            $table->foreign('kode_barang')->references('kode_barang')->on('barang');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('barangs');
     }
 };

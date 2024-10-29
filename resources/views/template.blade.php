@@ -44,7 +44,10 @@
                         <a href="/produk"> <i class="menu-icon fa fa-dashboard"></i>Produk </a>
                     </li>
                     <li>
-                        <a href="/transaksi"> <i class="menu-icon fa fa-dashboard"></i>Transaksi </a>
+                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Barang </a>
+                    </li>
+                    <li>
+                        <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>
                     </li>
                     <li>
                         <a href="/laporan"> <i class="menu-icon fa fa-clipboard"></i>Laporan </a>

@@ -2,23 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    use HasFactory;
+    protected $table = 'transaksi';
 
+    // Kolom yang dapat diisi secara massal
     protected $fillable = [
-        'kode',
-        'total',
-        'status',
+        'kode_barang',
+        'total_bayar',
     ];
 
-    public function Laporan()
+    // Relasi dengan model Barang (jika ingin menambahkan relasi)
+    public function barang()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->belongsTo(Barang::class, 'kode_barang', 'kode_barang');
     }
-
-
 }

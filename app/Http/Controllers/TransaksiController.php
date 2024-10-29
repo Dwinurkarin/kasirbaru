@@ -2,96 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Laporan;
-use App\Models\Produk;
-use Illuminate\Http\Request;
+use App\Models\Barang;
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    // Menampilkan daftar transaksi
     public function index()
     {
-        // Ambil transaksi aktif yang statusnya pending
-        $transaksiAktif = Transaksi::where('status', 'pending')->first();
-
-        // Jika tidak ada transaksi aktif, set default
-        $semuaProduk = $transaksiAktif ? $transaksiAktif->laporan : [];
-        $totalSemuaBelanja = $transaksiAktif ? $transaksiAktif->total : 0;
-        $bayar = 0;  // Inisialisasi bayar untuk sementara
-        $kembalian = 0;  // Inisialisasi kembalian untuk sementara
-
-        return view('pages.transaksi.index', compact('transaksiAktif', 'semuaProduk', 'totalSemuaBelanja', 'bayar', 'kembalian'));
+        return view('pages.transaksi.index');
     }
 
-
-    // Menampilkan form create transaksi baru
-    public function create()
+    public function getBarang(Request $request)
     {
-        return view('pages.transaksi.create');
+        $barang = Barang::where('kode_barang', $request->kode_barang)->first();
+
+        if ($barang) {
+            return response()->json($barang);
+        } else {
+            return response()->json(['message' => 'Barang tidak ditemukan'], 404);
+        }
     }
 
-    // Menyimpan transaksi baru
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'required|string|max:255',
-            'total' => 'required|integer|min:1',
+        $validatedData = $request->validate([
+            'kode_barang' => 'required|exists:barang,kode_barang',
+            'total_bayar' => 'required|numeric|min:0',
         ]);
 
         Transaksi::create([
-            'kode' => $request->kode,
-            'total' => $request->total,
-            'status' => 'pending', // Default status adalah pending
+            'kode_barang' => $request->kode_barang,
+            'total_bayar' => $request->total_bayar,
         ]);
 
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan.');
-    }
-
-    // Menampilkan form edit transaksi
-    public function edit($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        return view('pages.transaksi.edit', compact('transaksi'));
-    }
-
-    // Mengupdate transaksi
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'kode' => 'required|string|max:255',
-        ]);
-    
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->update(['kode' => $request->kode]);
-    
-        return redirect()->route('pages.transaksi.index');
-    }
-
-    // Menghapus transaksi
-    public function destroy($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
-
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus.');
-    }
-
-    // Membatalkan (menghapus) transaksi
-    public function cancel($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
-
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibatalkan dan dihapus.');
-    }
-
-    // Menandai transaksi sebagai sudah dibayar
-    public function bayar(Request $request, $id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->update(['status' => 'completed']);
-
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibayar.');
+        return redirect()->back()->with('success', 'Transaksi berhasil!');
     }
 }

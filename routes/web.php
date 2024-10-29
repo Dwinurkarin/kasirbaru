@@ -17,10 +17,11 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 
 Route::resource('/user', App\Http\Controllers\UserController::class);
 Route::resource('/produk', App\Http\Controllers\ProdukController::class);
-Route::resource('transaksi', App\Http\Controllers\TransaksiController::class);
-Route::post('/transaksi/{id}/cancel', [TransaksiController::class, 'cancel'])->name('transaksi.cancel');
-Route::post('transaksi/{id}/bayar', [TransaksiController::class, 'bayar'])->name('transaksi.bayar');
+Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+Route::get('/transaksi/get-barang', [TransaksiController::class, 'getBarang'])->name('transaksi.getBarang');
+Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
 Route::get('/laporan' , [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');  
+Route::resource('/barang', App\Http\Controllers\BarangController::class);
 });
 
 // Route::group (['middleware' => ['auth', App\Http\Middleware\AdminMiddleware::class]], function () {
