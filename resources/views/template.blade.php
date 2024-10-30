@@ -40,11 +40,11 @@
                     <li>
                         <a href="/user"> <i class="menu-icon fa fa-users"></i>User </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="/produk"> <i class="menu-icon fa fa-dashboard"></i>Produk </a>
-                    </li>
+                    </li> --}}
                     <li>
-                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Barang </a>
+                        <a href="/barang" > <i class="menu-icon fa fa-dashboard"></i>Barang </a>
                     </li>
                     <li>
                         <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>

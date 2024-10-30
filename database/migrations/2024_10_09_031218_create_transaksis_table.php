@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_barang');
-            $table->decimal('total_bayar', 8, 2);
-            $table->string('qty');
-            $table->string('subtotal');
+            $table->date('tanggal');
+            $table->integer('total');
+            $table->string('pembayaran');
             $table->timestamps();
-
-            $table->foreign('kode_barang')->references('kode_barang')->on('barang');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('transaksi');
     }
 };

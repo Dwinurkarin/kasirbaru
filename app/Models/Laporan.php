@@ -9,19 +9,19 @@ class Laporan extends Model
 {
     use HasFactory;
 
+    // Tentukan nama tabel jika berbeda dari konvensi (opsional jika sudah sesuai)
+    protected $table = 'laporan';
+
+    // Tentukan kolom-kolom yang dapat diisi secara massal
     protected $fillable = [
+        'tanggal',
         'transaksi_id',
-        'produk_id',
-        'jumlah'
+        'total',
     ];
 
+    // Relasi dengan model Transaksi (opsional jika ingin akses data transaksi dari laporan)
     public function transaksi()
     {
         return $this->belongsTo(Transaksi::class);
-    }
-
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class);
     }
 }

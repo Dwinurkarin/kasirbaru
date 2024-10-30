@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\TransaksiDetail;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
     protected $table = 'transaksi';
 
-    // Kolom yang dapat diisi secara massal
-    protected $fillable = [
-        'kode_barang',
-        'total_bayar',
-    ];
+    protected $fillable = ['tanggal', 'total', 'pembayaran'];
 
-    // Relasi dengan model Barang (jika ingin menambahkan relasi)
-    public function barang()
+    public function details()
     {
-        return $this->belongsTo(Barang::class, 'kode_barang', 'kode_barang');
+        return $this->hasMany(TransaksiDetail::class);
     }
 }
