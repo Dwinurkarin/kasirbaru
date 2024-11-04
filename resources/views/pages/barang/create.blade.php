@@ -1,58 +1,59 @@
 @extends('template')
+
 @section('konten')
-<h2 class="text mb-4">Tambah Barang</h2>
+<div class="page-heading">
+    <div class="page-title mb-3">
+       <h3>
+           <span class="bi bi-building"></span>
+           Create New - Barang
+       </h3>
+    </div>
 
-<div class="container">
-    <form method="POST" action="{{ route('barang.store') }}" class="needs-validation" novalidate>
-        @csrf
-        <div class="form-group">
-            <label for="kode_barang">Kode Barang</label>
-            <input type="text" class="form-control" id="kode_barang" name="kode_barang" required>
-            <div class="invalid-feedback">
-                Kode barang diperlukan.
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ route('barang.store') }}" method="POST">
+                    @csrf
+                <div class="form-group mb-3">
+                    <label for="kode_barang" class="form-lable"> Kode Barang <span class="text-danger">*</span></label>
+                    <input type="text" name="kode_barang" id="kode_barang" value="{{ old('kode_barang') }}" class="form-control @error('kode_barang') is-invalid  @enderror" />
+            
+                    @error('kode_barang') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="nama_barang" class="form-lable"> Nama Barang <span class="text-danger">*</span></label>
+                    <input type="text" name="nama_barang" id="name" value="{{ old('nama_barang') }}" class="form-control @error('nama_barang') is-invalid  @enderror" />
+            
+                    @error('nama_barang') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="harga" class="form-lable"> Harga <span class="text-danger">*</span></label>
+                    <input type="number" name="harga" id="harga" value="{{ old('harga') }}" class="form-control @error('harga') is-invalid  @enderror" />
+            
+                    @error('harga') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="stok" class="form-lable">Stok <span class="text-danger">*</span></label>
+                    <input type="text" name="stok" id="stok" value="{{ old('stok') }}" class="form-control @error('stok') is-invalid  @enderror" />
+            
+                    @error('stok') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary"> Simpan </button>
+                <a href="{{ route('barang.index') }}" class="btn btn-secondary">Batal</a>
+            </form>
             </div>
         </div>
-        <div class="form-group">
-            <label for="nama_barang">Nama Barang</label>
-            <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
-            <div class="invalid-feedback">
-                Nama barang diperlukan.
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="harga">Harga</label>
-            <input type="number" class="form-control" id="harga" name="harga" required>
-            <div class="invalid-feedback">
-                Harga diperlukan.
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="stok">Stok</label>
-            <input type="number" class="form-control" id="stok" name="stok" required>
-            <div class="invalid-feedback">
-                Stok diperlukan.
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-    </form>
+    </section>
 </div>
-
-<script>
-    // JavaScript untuk menghindari pengiriman form jika validasi gagal
-    (function () {
-        'use strict'
-        window.addEventListener('load', function () {
-            var forms = document.getElementsByClassName('needs-validation')
-            for (var i = 0; i < forms.length; i++) {
-                forms[i].addEventListener('submit', function (event) {
-                    if (this.checkValidity() === false) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    this.classList.add('was-validated')
-                }, false)
-            }
-        }, false)
-    })()
-</script>
 @endsection

@@ -34,7 +34,7 @@ class BarangController extends Controller
             'stok' => $request->stok,
         ]);
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
+        return redirect()->route('barang.index');
     }
 
     public function edit($id)
@@ -46,7 +46,7 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'kode_barang' => 'required|unique:barangs,kode_barang,' . $id, // Unik, kecuali untuk barang yang sedang diedit
+            'kode_barang' => 'required|unique:barang,kode_barang,' . $id, // Unik, kecuali untuk barang yang sedang diedit
             'nama_barang' => 'required',
             'harga' => 'required|integer',
             'stok' => 'required|integer',
@@ -60,14 +60,14 @@ class BarangController extends Controller
             'stok' => $request->stok,
         ]);
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil diperbarui.'); // Redirect ke index barang dengan pesan sukses
+        return redirect()->route('barang.index'); // Redirect ke index barang dengan pesan sukses
     }
     public function destroy($id)
-{
-    $barang = Barang::findOrFail($id); // Mengambil barang berdasarkan ID
+    {
+        $barang = Barang::findOrFail($id); // Mengambil barang berdasarkan ID
 
-    $barang->delete(); // Menghapus barang
+        $barang->delete(); // Menghapus barang
 
-    return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus.'); // Redirect ke halaman index barang dengan pesan sukses
-}
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus.'); // Redirect ke halaman index barang dengan pesan sukses
+    }
 }

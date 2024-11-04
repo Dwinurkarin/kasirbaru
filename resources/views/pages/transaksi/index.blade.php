@@ -1,109 +1,132 @@
 @extends('template')
 
 @section('konten')
-<h2 class="text-center mb-4">Transaksi</h2>
-
-<!-- Tampilkan pesan sukses dan kembalian -->
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-        <br>
-        Kembalian: Rp{{ session('kembalian') }}
-    </div>
-@endif
-
-<form id="formTransaksi" method="POST" action="{{ route('transaksi.simpan') }}" class="container">
-    @csrf
-    <div class="mb-3">
-        <div class="input-group">
-            <input type="text" id="kode_barang" class="form-control" placeholder="Masukkan kode barang" required>
-            <button type="button" class="btn btn-primary" onclick="tambahBarang()">Tambah Barang</button>
+    <div class="page-heading">
+        <div class="page-title mb-3">
+            <h3>
+                <span class="bi bi-building"></span>
+                Transaksi
+            </h3>
         </div>
-    </div>
-    
-    <h3>Daftar Barang</h3>
-    <div id="daftarBarang" class="mb-3"></div>
 
-    <div id="formPembayaran" class="card mt-4" style="display:none;">
-        <div class="card-body">
-            <h5 class="card-title">Form Pembayaran</h5>
-            <div class="mb-3">
-                <label for="total">Total Harga:</label>
-                <input type="number" id="total" name="total" class="form-control" readonly>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+                <br>
+                Kembalian: Rp{{ session('kembalian') }}
+            </div>
+        @endif
+
+        <form id="formTransaksi" method="POST" action="{{ route('transaksi.simpan') }}">
+            @csrf
+            <div id="listBarang">
+                <div class="barang mb-3">
+                    <label for="barangSelect" class="form-label">Pilih Barang:</label>
+                    <select id="barangSelect" class="form-select" onchange="tambahBarang()">
+                        <option value="">-- Pilih Barang --</option>
+                        @foreach ($barangs as $barang)
+                            <option value="{{ $barang->id }}" data-nama="{{ $barang->nama_barang }}"
+                                data-harga="{{ $barang->harga }}">
+                                {{ $barang->nama_barang }} - Rp{{ number_format($barang->harga, 0, ',', '.') }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="pembayaran">Uang Pembayaran:</label>
-                <input type="number" name="pembayaran" class="form-control" required>
+            <h3>Daftar Barang</h3>
+            <table class="table table-bordered" id="daftarBarangTable">
+                <thead>
+                    <tr>
+                        <th>Nama Barang</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th>Subtotal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="daftarBarang"></tbody>
+            </table>
+
+            <div id="formPembayaran" style="display:none;">
+                <label>Total Harga: </label>
+                <input type="number" id="total" name="total" readonly>
+
+                <label>Uang Pembayaran:</label>
+                <input type="number" name="pembayaran" required>
+
+                <button type="submit" class="btn btn-primary mt-3">Bayar</button>
             </div>
+            <input type="hidden" id="items" name="items">
+        </form>
 
-            <button type="submit" class="btn btn-success">Bayar</button>
-        </div>
-    </div>
+        <script>
+            let daftarBarang = [];
 
-    <input type="hidden" id="items" name="items">
-</form>
+            function tambahBarang() {
+                let barangSelect = document.getElementById('barangSelect');
+                let selectedOption = barangSelect.options[barangSelect.selectedIndex];
 
-<script>
-    let daftarBarang = [];
-    
-    function tambahBarang() {
-        let kodeBarang = document.getElementById('kode_barang').value;
-        
-        fetch("{{ route('transaksi.cariBarang') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ kode_barang: kodeBarang })
-        })
-        .then(response => response.json())
-        .then(barang => {
-            if (barang) {
-                let item = daftarBarang.find(i => i.barang_id === barang.id);
+                if (selectedOption.value) {
+                    let barangId = selectedOption.value;
+                    let namaBarang = selectedOption.getAttribute('data-nama');
+                    let harga = parseInt(selectedOption.getAttribute('data-harga'));
+
+                    let item = daftarBarang.find(i => i.barang_id == barangId);
+                    if (item) {
+                        item.jumlah += 1;
+                        item.subtotal += harga;
+                    } else {
+                        daftarBarang.push({
+                            barang_id: barangId,
+                            nama_barang: namaBarang,
+                            harga: harga,
+                            jumlah: 1,
+                            subtotal: harga
+                        });
+                    }
+
+                    tampilkanDaftarBarang();
+                    barangSelect.selectedIndex = 0;
+                }
+            }
+
+            function tampilkanDaftarBarang() {
+                let daftarHTML = '';
+                let total = 0;
+
+                daftarBarang.forEach((item, index) => {
+                    total += item.subtotal;
+                    daftarHTML += `
+                        <tr>
+                            <td>${item.nama_barang}</td>
+                            <td>Rp${item.harga}</td>
+                            <td>${item.jumlah}</td>
+                            <td>Rp${item.subtotal}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="tambahJumlahBarang(${item.barang_id})">+</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('daftarBarang').innerHTML = daftarHTML;
+                document.getElementById('total').value = total;
+                document.getElementById('items').value = JSON.stringify(daftarBarang);
+
+                if (total > 0) {
+                    document.getElementById('formPembayaran').style.display = 'block';
+                }
+            }
+
+            function tambahJumlahBarang(barangId) {
+                let item = daftarBarang.find(i => i.barang_id == barangId);
                 if (item) {
                     item.jumlah += 1;
-                    item.subtotal += barang.harga;
-                } else {
-                    daftarBarang.push({
-                        barang_id: barang.id,
-                        nama_barang: barang.nama_barang,
-                        harga: barang.harga,
-                        jumlah: 1,
-                        subtotal: barang.harga
-                    });
+                    item.subtotal += item.harga;
                 }
                 tampilkanDaftarBarang();
             }
-        });
-    }
-
-    function tampilkanDaftarBarang() {
-        let daftarHTML = '';
-        let total = 0;
-
-        daftarBarang.forEach(item => {
-            total += item.subtotal;
-            daftarHTML += `
-                <div class="alert alert-info">
-                    <strong>${item.nama_barang}</strong><br>
-                    Harga: Rp${item.harga}<br>
-                    Jumlah: ${item.jumlah}<br>
-                    Subtotal: Rp${item.subtotal}
-                </div>
-            `;
-        });
-
-        document.getElementById('daftarBarang').innerHTML = daftarHTML;
-        document.getElementById('total').value = total;
-
-        // Update hidden input dengan data barang dalam format JSON
-        document.getElementById('items').value = JSON.stringify(daftarBarang);
-
-        if (total > 0) {
-            document.getElementById('formPembayaran').style.display = 'block';
-        }
-    }
-</script>
+        </script>
+    </div>
 @endsection

@@ -40,9 +40,6 @@
                     <li>
                         <a href="/user"> <i class="menu-icon fa fa-users"></i>User </a>
                     </li>
-                    {{-- <li>
-                        <a href="/produk"> <i class="menu-icon fa fa-dashboard"></i>Produk </a>
-                    </li> --}}
                     <li>
                         <a href="/barang" > <i class="menu-icon fa fa-dashboard"></i>Barang </a>
                     </li>

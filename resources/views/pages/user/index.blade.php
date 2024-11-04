@@ -42,11 +42,11 @@
                                             <span class="bi bi-pencil"></span>
                                             Edit
                                         </a>
-                                        <form action="{{ route('user.destroy', $item->id) }}" method="POST"
-                                            style="display:inline-block;">
+                                        <form action="{{ route('user.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" 
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?');">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
