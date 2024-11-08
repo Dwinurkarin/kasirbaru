@@ -26,56 +26,53 @@ class TransaksiController extends Controller
     {
         // Validasi input transaksi
         $request->validate([
-            'items' => 'required|array',
-            'total' => 'required|numeric',
-            'pembayaran' => 'required|numeric',
+            'total' => 'required|integer',
+            'pembayaran' => 'required|integer|min:' . $request->total,
         ]);
     
-        // Inisialisasi variabel untuk menyimpan data transaksi
-        $total = $request->total;
-        $pembayaran = $request->pembayaran;
-        $kembalian = $pembayaran - $total;
-    
-        // Mulai proses penyimpanan transaksi
-        $transaksi = Transaksi::create([
-            'total' => $total,
-            'pembayaran' => $pembayaran,
-            'kembalian' => $kembalian,
-        ]);
-    
-        // Iterasi setiap item dan kurangi stoknya
-        foreach ($request->items as $item) {
-            $barang = Barang::find($item['barang_id']);
-    
-            if ($barang) {
-                // Periksa apakah stok cukup untuk transaksi
-                if ($barang->stok >= $item['jumlah']) {
-                    // Kurangi stok
-                    $barang->stok -= $item['jumlah'];
-                    $barang->save();
-    
-                    // Simpan detail transaksi
-                    $transaksi->details()->create([
-                        'barang_id' => $item['barang_id'],
-                        'jumlah' => $item['jumlah'],
-                        'subtotal' => $item['subtotal'],
-                    ]);
-                } else {
-                    return redirect()->back()->with('error', 'Stok barang tidak mencukupi.');
-                }
-            }
+        // Decode items dari JSON menjadi array
+        $items = json_decode($request->items, true);
+        if (!is_array($items) || empty($items)) {
+            return redirect()->back()->withErrors(['error' => 'Data barang tidak valid.']);
         }
     
-        // Masukkan ke laporan setelah transaksi berhasil
-        Laporan::create([
+        // Buat transaksi
+        $transaksi = Transaksi::create([
             'tanggal' => now(),
-            'kode_invoice' => $transaksi->kode_invoice,
-            'total' => $transaksi->total,
+            'total' => $request->total,
+            'pembayaran' => $request->pembayaran,
         ]);
     
+        // Simpan detail transaksi
+        foreach ($items as $item) {
+            $barang = Barang::find($item['barang_id']);
+            $subtotal = $barang->harga * $item['jumlah'];
+    
+            TransaksiDetail::create([
+                'transaksi_id' => $transaksi->id,
+                'barang_id' => $barang->id,
+                'jumlah' => $item['jumlah'],
+                'subtotal' => $subtotal,
+            ]);
+    
+            // Kurangi stok barang
+            $barang->decrement('stok', $item['jumlah']);
+        }
+    
+        // Hitung kembalian
+        $kembalian = $request->pembayaran - $request->total;
+    
+        // Simpan data ke tabel laporan
+        Laporan::create([
+            'tanggal' => now(),
+            'transaksi_id' => $transaksi->id,
+            'total' => $request->total,
+        ]);
+    
+        // Redirect kembali ke halaman transaksi dengan pesan sukses dan kembalian
         return redirect()->route('transaksi.index')->with([
-            'success' => 'Transaksi berhasil!',
-            'kembalian' => $kembalian,
+            'success' => 'Transaksi berhasil disimpan dan laporan telah ditambahkan.',
+            'kembalian' => $kembalian
         ]);
     }
     

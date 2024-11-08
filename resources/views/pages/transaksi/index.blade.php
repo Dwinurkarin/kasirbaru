@@ -34,19 +34,31 @@
                 </div>
             </div>
 
-            <h3>Daftar Barang</h3>
-            <table class="table table-bordered" id="daftarBarangTable">
-                <thead>
-                    <tr>
-                        <th>Nama Barang</th>
-                        <th>Harga</th>
-                        <th>Jumlah</th>
-                        <th>Subtotal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="daftarBarang"></tbody>
-            </table>
+            <div class="page-title mb-3">
+                <h3>
+                    <span class="bi bi-building"></span>
+                    Daftar Barang
+                </h3>
+            </div>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="datatable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="daftarBarang"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
             <div id="formPembayaran" style="display:none;">
                 <label>Total Harga: </label>
