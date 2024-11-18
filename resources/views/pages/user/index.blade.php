@@ -1,13 +1,8 @@
 @extends('template')
-
+@section('judul','Daftar Pengguna')
 @section('konten')
     <div class="page-heading">
-        <div class="page-title mb-3">
-            <h3>
-                <span class="bi bi-building"></span>
-                Pengguna
-            </h3>
-        </div>
+ 
 
         <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">
             <span class="bi bi-plus-circle"></span> Tambah Pengguna
@@ -22,17 +17,15 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
-                                <th>Peran</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($user as $item)
+                            @foreach ($users as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->peran }}</td>
                                     <td>
                                         <a href="{{ route('user.show', $item->id) }}" class="btn btn-primary btn-sm me-1">
                                             <span class="bi bi-eye"></span>

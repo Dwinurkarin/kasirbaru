@@ -35,9 +35,6 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/dashboard"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                    </li>
-                    <li>
                         <a href="/user"> <i class="menu-icon fa fa-users"></i>User </a>
                     </li>
                     <li>
@@ -80,7 +77,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Dashboard</h1>
+                        <h1>@yield('judul')</h1>
                     </div>
                 </div>
             </div>

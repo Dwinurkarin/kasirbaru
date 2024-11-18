@@ -12,11 +12,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
 
-        Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-        Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
         Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 
         Route::resource('/user', App\Http\Controllers\UserController::class);

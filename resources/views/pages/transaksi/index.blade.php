@@ -1,13 +1,7 @@
 @extends('template')
-
+@section('judul','Transaksi')
 @section('konten')
     <div class="page-heading">
-        <div class="page-title mb-3">
-            <h3>
-                <span class="bi bi-building"></span>
-                Transaksi
-            </h3>
-        </div>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -67,7 +61,7 @@
                 <label>Uang Pembayaran:</label>
                 <input type="number" name="pembayaran" required>
 
-                <button type="submit" class="btn btn-primary mt-3">Bayar</button>
+                <button type="submit" class="btn btn-primary ">Bayar</button>
             </div>
             <input type="hidden" id="items" name="items">
         </form>

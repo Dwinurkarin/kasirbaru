@@ -1,13 +1,7 @@
 @extends('template')
-
+@section('judul','Laporan')
 @section('konten')
     <div class="page-heading">
-        <div class="page-title mb-3">
-            <h3>
-                <span class="bi bi-building"></span>
-                Laporan
-            </h3>
-        </div>
 
         <section class="section">
             <div class="card">
@@ -16,7 +10,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Tanggal</th>
+                                <th>Tanggal & Waktu</th>
                                 <th>Kode Invoice</th>
                                 <th>Total</th>
                             </tr>

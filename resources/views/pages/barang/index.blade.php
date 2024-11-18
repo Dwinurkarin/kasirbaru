@@ -1,18 +1,10 @@
 @extends('template')
-
+@section('judul','Barang')
 @section('konten')
-    <div class="page-heading">
-        <div class="page-title mb-3">
-            <h3>
-                <span class="bi bi-building"></span>
-                Barang
-            </h3>
-        </div>
-
+    <div class="page-heading"> 
         <a href="{{ route('barang.create') }}" class="btn btn-primary mb-3">
             <span class="bi bi-plus-circle"></span> Tambah Barang
         </a>
-
         <section class="section">
             <div class="card">
                 <div class="card-body">

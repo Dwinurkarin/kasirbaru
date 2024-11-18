@@ -39,15 +39,6 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="form-group mb-3">
-                    <label for="peran" class="form-lable"> Peran <span class="text-danger">*</span></label>
-                    <input type="text" name="peran" id="peran" value="{{ old('peran') }}" class="form-control @error('peran') is-invalid  @enderror" />
-            
-                    @error('peran') 
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div>
                 <button type="submit" class="btn btn-primary"> Simpan </button>
                 <a href="{{ route('user.index') }}" class="btn btn-secondary">Batal</a>
             </form>

@@ -21,10 +21,6 @@
                     <td>Email</td>
                     <td>{{ $user->email }}</td>
                 </tr>
-                <tr>
-                    <td>Peran</td>
-                    <td>{{ $user->peran }}</td>
-                </tr>
                 <td>
                 <a href="{{ route('user.index') }}" class="btn btn-primary btn-sm me-1">
                     <span class="bi bi-arrow-left"></span>
