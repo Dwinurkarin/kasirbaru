@@ -27,10 +27,6 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>
-                                        <a href="{{ route('user.show', $item->id) }}" class="btn btn-primary btn-sm me-1">
-                                            <span class="bi bi-eye"></span>
-                                            Show
-                                        </a>
                                         <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning btn-sm me-1">
                                             <span class="bi bi-pencil"></span>
                                             Edit

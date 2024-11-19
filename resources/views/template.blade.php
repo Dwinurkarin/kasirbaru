@@ -35,7 +35,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/user"> <i class="menu-icon fa fa-users"></i>User </a>
+                        <a href="/user"> <i class="menu-icon fa fa-users"></i>Pengguna </a>
                     </li>
                     <li>
                         <a href="/barang" > <i class="menu-icon fa fa-dashboard"></i>Barang </a>

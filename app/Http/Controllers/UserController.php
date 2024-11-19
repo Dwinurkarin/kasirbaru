@@ -36,17 +36,6 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function show(string $id)
-    {
-        $user = User::find($id);
-
-        if (!$user) {
-            return redirect()->route('user.index')->with('error', 'User tidak ditemukan');
-        }
-
-        return view('pages.user.show', compact('user'));
-    }
-
     public function edit(string $id)
     {
         $user = User::find($id);
