@@ -24,14 +24,12 @@ class BarangController extends Controller
             'kode_barang' => 'required|unique:barang',
             'nama_barang' => 'required',
             'harga' => 'required|integer',
-            'stok' => 'required|integer',
         ]);
 
         Barang::create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
             'harga' => $request->harga,
-            'stok' => $request->stok,
         ]);
 
         return redirect()->route('barang.index');
@@ -49,7 +47,6 @@ class BarangController extends Controller
             'kode_barang' => 'required|unique:barang,kode_barang,' . $id, // Unik, kecuali untuk barang yang sedang diedit
             'nama_barang' => 'required',
             'harga' => 'required|integer',
-            'stok' => 'required|integer',
         ]);
 
         $barang = Barang::findOrFail($id); // Mengambil barang berdasarkan ID
@@ -57,7 +54,6 @@ class BarangController extends Controller
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
             'harga' => $request->harga,
-            'stok' => $request->stok,
         ]);
 
         return redirect()->route('barang.index'); // Redirect ke index barang dengan pesan sukses

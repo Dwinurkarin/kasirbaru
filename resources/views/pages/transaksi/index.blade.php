@@ -15,9 +15,9 @@
             @csrf
             <div id="listBarang">
                 <div class="barang mb-3">
-                    <label for="barangSelect" class="form-label">Pilih Barang:</label>
+                    <label for="barangSelect" class="form-label">Pilih Produk:</label>
                     <select id="barangSelect" class="form-select" onchange="tambahBarang()">
-                        <option value="">-- Pilih Barang --</option>
+                        <option value="">-- Pilih Produk --</option>
                         @foreach ($barangs as $barang)
                             <option value="{{ $barang->id }}" data-nama="{{ $barang->nama_barang }}"
                                 data-harga="{{ $barang->harga }}">
@@ -31,7 +31,7 @@
             <div class="page-title mb-3">
                 <h3>
                     <span class="bi bi-building"></span>
-                    Daftar Barang
+                    Daftar Produk
                 </h3>
             </div>
 

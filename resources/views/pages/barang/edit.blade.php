@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group mb-2">
-                <label for="nama_barang" class="form-label">Nama Barang<span class="text-danger">*</span></label>
+                <label for="nama_barang" class="form-label">Nama Produk<span class="text-danger">*</span></label>
                 <input type="text" name="nama_barang" id="nama_barang" value="{{ $barang->nama_barang }}" class="form-control @error('nama_barang') is-invalid @enderror" />
 
                 @error('nama_barang')
@@ -30,15 +30,6 @@
                 <input type="number" name="harga" id="harga" value="{{ $barang->harga }}" class="form-control @error('harga') is-invalid @enderror" />
 
                 @error('harga')
-                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                 @enderror
-            </div>
-
-            <div class="form-group mb-2">
-                <label for="stok" class="form-label">Stok <span class="text-danger">*</span></label>
-                <input type="number" name="stok" id="stok" value="{{ $barang->stok }}" class="form-control @error('stok') is-invalid @enderror" />
-
-                @error('stok')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
                  @enderror
             </div>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +10,7 @@
 
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('style/assets/css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('style/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('style/assets/css/font-awesome.min.css') }}">
@@ -20,25 +21,32 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 </head>
+
 <body>
 
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="">Kasir</a>
-                <a class="navbar-brand hidden" href="">K</a>
+                <a class="navbar-brand" href="">Cafe</a>
+                <a class="navbar-brand hidden" href="">C</a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
+
                     <li>
-                        <a href="/user"> <i class="menu-icon fa fa-users"></i>Pengguna </a>
+                        @if (Auth::check() && Auth::user()->role === 'admin')
+                            <a href="/user">
+                                <i class="menu-icon fa fa-users"></i> Pengguna
+                            </a>
+                        @endif
                     </li>
                     <li>
-                        <a href="/barang" > <i class="menu-icon fa fa-dashboard"></i>Barang </a>
+                        <a href="/barang"> <i class="menu-icon fa fa-dashboard"></i>Produk </a>
                     </li>
                     <li>
                         <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>
@@ -62,12 +70,19 @@
                 </div>
 
                 <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
+                    <div class="user-area dropdown float-right d-flex">
+                        <div class="text-login mt-2">
+                            @if (Auth::check())
+                                <p>
+                                    <i class="bi bi-person-circle"></i> <!-- Ikon orang dari Font Awesome -->
+                                    Login sebagai: <strong>{{ Auth::user()->name }} ({{ Auth::user()->role }})</strong>
+                                </p>
+                            @endif
+                        </div>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="btn btn-link">Logout</button>
+                            <button type="submit" class="btn btn-link">| Logout <i class="bi bi-box-arrow-right"></i></button>
                         </form>
-                        
                     </div>
                 </div>
             </div>
@@ -94,6 +109,11 @@
 
         <div class="content mt-3">
             <div class="animated fadeIn">
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 @yield('konten')
             </div>
         </div>
@@ -104,4 +124,5 @@
     <script src="{{ asset('style/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('style/assets/js/main.js') }}"></script>
 </body>
+
 </html>

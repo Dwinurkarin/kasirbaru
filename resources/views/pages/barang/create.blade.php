@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="nama_barang" class="form-lable"> Nama Barang <span class="text-danger">*</span></label>
+                    <label for="nama_barang" class="form-lable"> Nama Produk <span class="text-danger">*</span></label>
                     <input type="text" name="nama_barang" id="name" value="{{ old('nama_barang') }}" class="form-control @error('nama_barang') is-invalid  @enderror" />
             
                     @error('nama_barang') 
@@ -41,14 +41,6 @@
                     @enderror
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="stok" class="form-lable">Stok <span class="text-danger">*</span></label>
-                    <input type="text" name="stok" id="stok" value="{{ old('stok') }}" class="form-control @error('stok') is-invalid  @enderror" />
-            
-                    @error('stok') 
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div>
                 <button type="submit" class="btn btn-primary"> Simpan </button>
                 <a href="{{ route('barang.index') }}" class="btn btn-secondary">Batal</a>
             </form>

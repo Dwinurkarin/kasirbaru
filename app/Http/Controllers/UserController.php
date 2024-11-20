@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -25,12 +26,14 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'role' => 'required|'
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role
         ]);
 
         return redirect()->route('user.index');
@@ -52,6 +55,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'nullable|in:kasir,admin',
         ]);
 
         $user = User::find($id);
@@ -63,10 +67,12 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role ?: null,
         ]);
 
         return redirect()->route('user.index')->with('success', 'User berhasil diperbarui');
     }
+
 
     public function destroy(string $id)
     {

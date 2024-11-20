@@ -2,9 +2,11 @@
 @section('judul','Barang')
 @section('konten')
     <div class="page-heading"> 
+        @if (Auth::check() && Auth::user()->role == 'admin')
         <a href="{{ route('barang.create') }}" class="btn btn-primary mb-3">
-            <span class="bi bi-plus-circle"></span> Tambah Barang
+            <span class="bi bi-plus-circle"></span> Tambah Produk
         </a>
+        @endif
         <section class="section">
             <div class="card">
                 <div class="card-body">
@@ -13,10 +15,11 @@
                             <tr>
                                 <th>No</th>
                                 <th>Kode Barang</th>
-                                <th>Nama Barang</th>
+                                <th>Nama Produk</th>
                                 <th>Harga</th>
-                                <th>Stok</th>
+                                @if (Auth::check() && Auth::user()->role == 'admin')
                                 <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -26,8 +29,8 @@
                                     <td>{{ $barang->kode_barang }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
                                     <td>{{ number_format($barang->harga, 0, ',', '.') }}</td>
-                                    <td>{{ $barang->stok }}</td>
                                     <td>
+                                        @if (Auth::check() && Auth::user()->role == 'admin')
                                         <a href="{{ route('barang.edit', $barang->id) }}"
                                             class="btn btn-warning btn-sm">Edit</a>
                                         <form action="{{ route('barang.destroy', $barang->id) }}" method="POST"
@@ -37,6 +40,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?');">Hapus</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

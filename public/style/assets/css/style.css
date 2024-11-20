@@ -33,7 +33,7 @@
   transition: all 0.3s ease; }
 
 body {
-  background: #f1f2f7;
+  
   display: table;
   font-family: 'Open Sans' sans-serif;
   font-size: 16px;
@@ -45,7 +45,8 @@ div[class*="col-"] {
 p {
   font-size: 16px;
   font-weight: 400;
-  line-height: 24px; }
+  line-height: 24px; 
+}
 
 p:focus {
   border: none;
@@ -98,7 +99,7 @@ img {
   width: 100%; }
 
 aside.left-panel {
-  background: #272c33;
+  background-color: #550040;
   display: table-cell;
   height: 100vh;
   min-height: 100%;
@@ -108,7 +109,7 @@ aside.left-panel {
   transition: width 0.3s ease; }
 
 .navbar {
-  background: #272c33;
+  background: #730056;
   border-radius: 0;
   border: none;
   display: block;
