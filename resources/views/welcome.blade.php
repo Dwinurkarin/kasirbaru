@@ -1,120 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Coffee Café</title>
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@500&display=swap"
-        rel="stylesheet">
+    <title>Kasir Cafe Coffee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
+        /* Global styles */
+        body, html {
             margin: 0;
             padding: 0;
-            background-color: #f9d8e7;
+            width: 100%;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+            overflow: hidden;
+            background: url("{{ asset('img/kopi.webp') }}") no-repeat center center/cover;
         }
 
-
-        header {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 90%;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        /* Background Animation */
+        .background-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('https://source.unsplash.com/1920x1080/?coffee') no-repeat center center/cover;
+            animation: zoomInOut 15s infinite;
+            filter: brightness(0.5);
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin: 0;
+        @keyframes zoomInOut {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Parallax Stars */
+        .parallax-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/diagonal-stripes-light.png');
+            opacity: 0.2;
+            animation: moveStars 20s linear infinite;
+        }
+
+        @keyframes moveStars {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+        /* Welcome Content */
+        .welcome-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .welcome-title {
+            font-size: 4.5rem;
+            font-weight: 800;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 700;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        p {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        .welcome-subtitle {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
         }
 
-        .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            text-decoration: none;
-            background-color: #ebb98e;
+        .btn-custom {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
             color: #fff;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
+            background: linear-gradient(90deg, #ff7eb3, #ff758c);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
         }
 
-        .btn:hover {
-            background-color: #8b4513;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        .btn-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .btn:active {
-            transform: translateY(2px);
+        /* Floating Coffee Cup Animation */
+        .floating-cup {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%) translateY(0);
+            width: 150px;
+            animation: floatUpDown 3s infinite ease-in-out;
         }
 
-        .auth-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .auth-links a {
-            background-color: #fff;
-            color: #4b4b4c;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .auth-links a:hover {
-            background-color: #f3bfe3;
-            color: #fff;
+        @keyframes floatUpDown {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-20px);
+            }
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>Welcome to Coffee Café</h1>
-        <p>Your perfect place to enjoy freshly brewed coffee.</p>
+    <!-- Background Elements -->
+    <div class="background-animation"></div>
+    <div class="parallax-stars"></div>
 
-        <!-- Auth Links -->
-        <div class="auth-links">
-            <a href="{{ route('login') }}">Log in</a>
-            <a href="{{ route('register') }}">Register</a>
-        </div>
-    </header>
+    <!-- Welcome Content -->
+    <div class="welcome-container">
+        <h1 class="welcome-title">Kasir Cafe Coffee ☕</h1>
+        <p class="welcome-subtitle">Seamless transactions, delightful coffee, and a cozy experience.</p>
+        <a href="{{ route('login') }}" class="btn btn-custom">Login</a>
+        <a href="{{ route('register') }}" class="btn btn-custom">Register</a>
+
+    </div>
+
 </body>
-
 </html>

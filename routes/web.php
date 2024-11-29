@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });
-Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
+Route::middleware(['auth', App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
     Route::resource('/user', UserController::class);
     Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
     Route::post('/barang/create', [BarangController::class, 'store'])->name('barang.store');
