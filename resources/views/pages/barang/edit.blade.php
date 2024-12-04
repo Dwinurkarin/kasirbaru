@@ -4,7 +4,7 @@
     <h2 class="text-center mb-4">Edit Barang</h2>
 
     <div class="container">
-        <form method="POST" action="{{ route('barang.update', $barang->id) }}" class="needs-validation" novalidate>
+        <form method="POST" action="{{ route('barang.update', $barang->id) }}" class="needs-validation" novalidate enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group mb-2">
@@ -34,6 +34,15 @@
                  @enderror
             </div>
 
+            <div>
+                <label for="foto">Foto Barang</label>
+                <input type="file" name="foto" id="foto" accept="image/*" onchange="previewImage(event)">
+                <p>Preview Foto:</p>
+                <img id="preview" src="{{ $barang->foto ? asset($barang->foto) : '#' }}" alt="Preview Gambar" width="100" 
+                    style="{{ $barang->foto ? '' : 'display: none;' }}">
+            </div>
+            
+
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('barang.index') }}" class="btn btn-secondary">Batal</a>
         </form>
@@ -57,4 +66,23 @@
             }, false)
         })()
     </script>
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Tampilkan gambar
+                };
+                reader.readAsDataURL(file); // Membaca file sebagai data URL
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none'; // Sembunyikan jika tidak ada file
+            }
+        }
+    </script>
+    
 @endsection

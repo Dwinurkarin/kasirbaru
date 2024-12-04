@@ -12,7 +12,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('barang.store') }}" method="POST">
+                <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                 <div class="form-group mb-3">
                     <label for="kode_barang" class="form-lable"> Kode Barang <span class="text-danger">*</span></label>
@@ -35,6 +35,14 @@
                 <div class="form-group mb-3">
                     <label for="harga" class="form-lable"> Harga <span class="text-danger">*</span></label>
                     <input type="number" name="harga" id="harga" value="{{ old('harga') }}" class="form-control @error('harga') is-invalid  @enderror" />
+            
+                    @error('harga') 
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group mb-3">
+                    <label for="foto" class="form-lable"> Foto</label>
+                    <input type="file" name="foto" id="foto" value="{{ old('foto') }}" class="form-control @error('foto') is-invalid  @enderror" />
             
                     @error('harga') 
                         <div class="invalid-feedback d-block">{{ $message }}</div>
