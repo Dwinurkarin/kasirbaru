@@ -15,4 +15,8 @@ class Transaksi extends Model
     {
         return $this->hasMany(TransaksiDetail::class);
     }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 }

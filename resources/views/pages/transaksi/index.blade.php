@@ -21,7 +21,7 @@
                         @foreach ($barangs as $barang)
                             <option value="{{ $barang->id }}" data-nama="{{ $barang->nama_barang }}"
                                 data-harga="{{ $barang->harga }}">
-                                {{ $barang->nama_barang }} - Rp{{ number_format($barang->harga, 0, ',', '.') }}
+                                {{ $barang->nama_barang }} - Rp{{ number_format($barang->harga, 0, ',', '.') }} - {{ $barang->kategori ? $barang->kategori->nama_kategori : 'N/A' }}
                             </option>
                         @endforeach
                     </select>

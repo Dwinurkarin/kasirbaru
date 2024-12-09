@@ -2,24 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Barang;
-use App\Models\Laporan;
+use App\Models\Kategori;
 use App\Models\Transaksi;
 use App\Models\TransaksiDetail;
-use Illuminate\Http\Request;
+use App\Models\Laporan;
 
 class TransaksiController extends Controller
 {
     public function index()
     {
+        $kategoris = Kategori::all(); // Ambil semua kategori
         $barangs = Barang::all(); // Ambil semua data barang
-        return view('pages.transaksi.index', compact('barangs'));
+        return view('pages.transaksi.index', compact('barangs', 'kategoris'));
     }
 
     public function cariBarang(Request $request)
     {
+        // Cari barang berdasarkan kode
         $barang = Barang::where('kode_barang', $request->kode_barang)->first();
-        return response()->json($barang);
+
+        if ($barang) {
+            // Ambil informasi kategori dari barang
+            $kategori = Kategori::find($barang->kategori_id);
+
+            // Return data barang beserta kategorinya
+            return response()->json([
+                'barang' => $barang,
+                'kategori' => $kategori
+            ]);
+        } else {
+            // Jika barang tidak ditemukan, return null
+            return response()->json(null);
+        }
     }
 
     public function simpanTransaksi(Request $request)
@@ -54,13 +70,14 @@ class TransaksiController extends Controller
                 'jumlah' => $item['jumlah'],
                 'subtotal' => $subtotal,
             ]);
-    
-            // Kurangi stok barang
-            $barang->decrement('stok', $item['jumlah']);
         }
     
         // Hitung kembalian
         $kembalian = $request->pembayaran - $request->total;
+        
+        if ($kembalian < 0) {
+            return redirect()->back()->withErrors(['error' => 'Uang pembayaran kurang dari total.']);
+        }
     
         // Simpan data ke tabel laporan
         Laporan::create([
@@ -75,5 +92,4 @@ class TransaksiController extends Controller
             'kembalian' => $kembalian
         ]);
     }
-    
 }

@@ -34,10 +34,8 @@
                 <a class="navbar-brand" href="">Cafe</a>
                 <a class="navbar-brand hidden" href="">C</a>
             </div>
-
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-
                     <li>
                         @if (Auth::check() && Auth::user()->role === 'admin')
                             <a href="/user">
@@ -46,13 +44,13 @@
                         @endif
                     </li>
                     <li>
-                        <a href="/barang"> <i class="menu-icon fa fa-dashboard"></i>Produk </a>
+                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Barang</a>
                     </li>
                     <li>
                         <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>
                     </li>
                     <li>
-                        <a href="/laporan"> <i class="menu-icon fa fa-clipboard"></i>Laporan </a>
+                        <a href="/laporan"> <i class="menu-icon fa fa-dashboard"></i>Laporan</a>
                     </li>
                 </ul>
             </div>

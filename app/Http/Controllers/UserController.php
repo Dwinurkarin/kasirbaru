@@ -57,7 +57,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'role' => 'nullable|in:kasir,admin',
         ]);
-
+        
         $user = User::find($id);
 
         if (!$user) {

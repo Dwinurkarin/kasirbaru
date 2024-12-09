@@ -32,14 +32,32 @@
                     @enderror
                 </div>
 
+                
                 <div class="form-group mb-3">
-                    <label for="harga" class="form-lable"> Harga <span class="text-danger">*</span></label>
+                    <label for="kategori_id" class="form-lable">Kategori <span class="text-danger">*</span></label>
+                    <select name="kategori_id" id="kategori_id" class="form-control @error('kategori_id') is-invalid @enderror">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach ($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                {{ $kategori->nama_kategori }}
+                            </option>
+                        @endforeach
+                    </select>
+                
+                    @error('kategori_id')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="harga" class="form-lable">Harga <span class="text-danger">*</span></label>
                     <input type="number" name="harga" id="harga" value="{{ old('harga') }}" class="form-control @error('harga') is-invalid  @enderror" />
-            
+                    
                     @error('harga') 
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
+                
                 <div class="form-group mb-3">
                     <label for="foto" class="form-lable"> Foto</label>
                     <input type="file" name="foto" id="foto" value="{{ old('foto') }}" class="form-control @error('foto') is-invalid  @enderror" />
