@@ -38,13 +38,21 @@
                 <ul class="nav navbar-nav">
                     <li>
                         @if (Auth::check() && Auth::user()->role === 'admin')
+                        <a href="/dashboard/admin"> <i class="menu-icon fa fa-shopping-cart"></i>Dashboard</a>
+                        @else
+                       
+                        <a href="/dashboard/user"> <i class="menu-icon fa fa-shopping-cart"></i>Dashboard</a>
+                        @endif
+                    </li>
+                    <li>
+                        @if (Auth::check() && Auth::user()->role === 'admin')
                             <a href="/user">
                                 <i class="menu-icon fa fa-users"></i> Pengguna
                             </a>
                         @endif
                     </li>
                     <li>
-                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Barang</a>
+                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Food & Drink</a>
                     </li>
                     <li>
                         <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>
@@ -79,7 +87,8 @@
                         </div>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="btn btn-link">| Logout <i class="bi bi-box-arrow-right"></i></button>
+                            <button type="submit" class="btn btn-link">| Logout <i
+                                    class="bi bi-box-arrow-right"></i></button>
                         </form>
                     </div>
                 </div>
