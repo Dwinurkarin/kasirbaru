@@ -38,10 +38,10 @@
                 <ul class="nav navbar-nav">
                     <li>
                         @if (Auth::check() && Auth::user()->role === 'admin')
-                        <a href="/dashboard/admin"> <i class="menu-icon fa fa-shopping-cart"></i>Dashboard</a>
+                        <a href="/dashboard/admin"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
                         @else
                        
-                        <a href="/dashboard/user"> <i class="menu-icon fa fa-shopping-cart"></i>Dashboard</a>
+                        <a href="/dashboard/user"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
                         @endif
                     </li>
                     <li>
@@ -52,13 +52,13 @@
                         @endif
                     </li>
                     <li>
-                        <a href="/barang"> <i class="menu-icon fa fa-shopping-cart"></i>Food & Drink</a>
+                        <a href="/barang"> <i class="menu-icon fa fa-coffee"></i>Food & Drink</a>
                     </li>
                     <li>
-                        <a href="/transaksi"> <i class="menu-icon fa fa-shopping-cart"></i>Transaksi </a>
+                        <a href="/transaksi"> <i class="menu-icon fa fa-money"></i>Transaksi </a>
                     </li>
                     <li>
-                        <a href="/laporan"> <i class="menu-icon fa fa-dashboard"></i>Laporan</a>
+                        <a href="/laporan"> <i class="menu-icon fa fa-clipboard"></i>Laporan</a>
                     </li>
                 </ul>
             </div>
